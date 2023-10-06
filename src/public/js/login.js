@@ -1,25 +1,26 @@
 const loginUser = async () => {
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+  
     try {
-        let email = document.getElementById("email").value;
-        let password = document.getElementById("password").value;
-
-        const response = await fetch('/api/sessions/login', {
-            method: "POST",
-            headers: { "Content-type": "application/json; charset=UTF-8" },
-            body: JSON.stringify({ email: email, pass: password }) 
-        });
-        
-        const data = await response.json();
-        console.log(data);
-
-        if (data.status === "ok") {
-            location.href = "/products";
-        } else {
-            console.error("Error en la respuesta del servidor:", data.message);
-        }
+      const response = await fetch("/api/sessions/login/", {
+        method: "POST",
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+        body: JSON.stringify({ email: email, password: password }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      if (data.status === "success") {
+        window.location.href = data.redirect;
+      }
     } catch (error) {
-        console.error("Error en la solicitud:", error);
+      console.log(error);
+      console.log("Hubo un problema con la operación, usuario o contraseña incorrectos", error);
     }
-}
-
-document.getElementById("btnLogIn").onclick = loginUser;
+  }
+  
+  document.getElementById("btnLogIn").onclick = loginUser;
