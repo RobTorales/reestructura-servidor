@@ -77,7 +77,7 @@ class CartManager {
         }
     }
 
-    async deleteProducts(cid) {
+    async cleanCart(cid) {
         try {
             await cartModel.updateOne({_id:cid}, {products:[]});
             console.log("Products deleted!");

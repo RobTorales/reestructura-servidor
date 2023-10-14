@@ -1,18 +1,18 @@
+import ProductServices from "../services/product.services.js";
 
-
-class ProductsController{
+class ProductController{
     constructor () {
-        this.productService = new ProductService();
+        this.ProductServices = new ProductServices();
     }
 
     getProducts = async (req, res) => {
-        const products = await PM.getProducts(req.query);
+        const products = await this.ProductServices.getProducts(req.query);
         res.send({products});
     }
 
     getProductsById = async (req, res) => {
         let pid = req.params.pid;
-        const products = await PM.getProductById(pid);
+        const products = await this.ProductServices.getProductById(pid);
         
         res.send({products})
     }
@@ -60,7 +60,7 @@ class ProductsController{
             return false;
         }
     
-        const result = await PM.addProduct({title, description, code, price, status, stock, category, thumbnails}); 
+        const result = await this.ProductServices.addProduct({title, description, code, price, status, stock, category, thumbnails}); 
     
         if (result) {
             res.send({status:"ok", message:"El Producto se agregó correctamente!"});
@@ -112,7 +112,7 @@ class ProductsController{
             return false;
         }
     
-        const result = await PM.updateProduct(pid, {title, description, code, price, status, stock, category, thumbnails});
+        const result = await this.ProductServices.updateProduct(pid, {title, description, code, price, status, stock, category, thumbnails});
     
         if (result) {
             res.send({status:"ok", message:"El Producto se actualizó correctamente!"});
@@ -123,7 +123,7 @@ class ProductsController{
 
     deleteProduct = async (req, res) => {
         let pid = req.params.pid;
-        const result = await PM.deleteProduct(pid)
+        const result = await this.ProductServices.deleteProduct(pid)
     
         if (result) {
             res.send({status:"ok", message:"El Producto se eliminó correctamente!"});
@@ -133,4 +133,4 @@ class ProductsController{
     }
 }
 
-export default ProductsController;
+export default ProductController;

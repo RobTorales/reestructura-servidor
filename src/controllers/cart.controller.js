@@ -1,13 +1,13 @@
-
+import CartServices from "../services/cart.services.js";
 
 
 class CartController {
     contructor (){
-        this.CartService = new CartService ();
+        this.CartServices = new CartServices ();
     }
 
     newCart = async (req, res) => {
-        const cart = await CM.newCart();
+        const cart = await this.CartServices.newCart();
     
         if (cart) {
             res.send({status:"ok", message:"El Carrito se creó correctamente!", id:cart._id});
@@ -18,7 +18,7 @@ class CartController {
 
     getCart = async (req, res) => {
         const cid = req.params.cid;
-        const cart = await CM.getCart(cid);
+        const cart = await this.CartServices.getCart(cid);
     
         if (cart) {
             res.send({products:cart.products});
@@ -30,7 +30,7 @@ class CartController {
     addProduct = async (req, res) => {
         const cid = req.params.cid;
         const pid = req.params.pid;
-        const result = await CM.addProduct(cid, pid);
+        const result = await this.CartServices.addProduct(cid, pid);
     
         if (result) {
             res.send({status:"ok", message:"El producto se agregó correctamente!"});
@@ -42,7 +42,7 @@ class CartController {
     updateCart = async (req, res) => {
         const cid = req.params.cid;
         const products = req.body.products;
-        const result = await CM.updateProducts(cid, products);
+        const result = await this.CartServices.updateCart(cid, products);
     
         if (result) {
             res.send({status:"ok", message:"El producto se agregó correctamente!"});
@@ -55,7 +55,7 @@ class CartController {
         const cid = req.params.cid;
         const pid = req.params.pid;
         const quantity = req.body.quantity;
-        const result = await CM.updateQuantity(cid, pid, quantity);
+        const result = await this.CartServices.updateQuantity(cid, pid, quantity);
     
         if (result) {
             res.send({status:"ok", message:"El producto se actualizó correctamente!"});
@@ -67,7 +67,7 @@ class CartController {
     deleteProduct = async (req, res) => {
         const cid = req.params.cid;
         const pid = req.params.pid;
-        const result = await CM.deleteProduct(cid, pid);
+        const result = await this.CartServices.deleteProduct(cid, pid);
     
         if (result) {
             res.send({status:"ok", message:"El producto se eliminó correctamente!"});
@@ -76,9 +76,9 @@ class CartController {
         }
     }
 
-    deleteProducts = async (req, res) => {
+    cleanCart = async (req, res) => {
         const cid = req.params.cid;
-        const result = await CM.deleteProducts(cid);
+        const result = await this.CartServices.cleanCart(cid);
     
         if (result) {
             res.send({status:"ok", message:"El carrito se vació correctamente!"});
@@ -87,3 +87,5 @@ class CartController {
         }
     }
 }
+
+export default CartController;

@@ -1,18 +1,23 @@
 import { Router } from "express";
 import ProductManager from "../dao/ProductManager.js";
-import ProductsController from "../controllers/products.controlers.js";
+import ProductServices from "../services/product.services.js";
+import ProductController from "../controllers/products.controlers.js";
+
 
 const productsRouter = Router();
-const productController = new productController();
+const PM = new ProductManager();
+const productServices = new ProductServices();
 
-productsRouter.get("/", ProductsController.getProducts);
 
-productsRouter.get("/:pid", ProductsController.getProductsById);
+productsRouter.get("/", ProductController.getProducts);
 
-productsRouter.post("/", ProductsController.addProduct);
+productsRouter.get("/:pid", ProductController.getProductsById);
 
-productsRouter.put("/:pid", ProductsController.updateProduct);
+productsRouter.post("/", ProductController.addProduct);
 
-productsRouter.delete("/:pid", ProductsController.deleteProduct);
+productsRouter.put("/:pid", ProductController.updateProduct);
+
+productsRouter.delete("/:pid", ProductController.deleteProduct);
+
 
 export default productsRouter;
