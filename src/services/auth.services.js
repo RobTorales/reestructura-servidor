@@ -10,16 +10,12 @@ class AuthServices {
     }
 
     async LoginUser(email, password) {
-        const user = await this.userManager.login(email, password);
+        const user = await this.UserManager.login(email, password);
         if (!user) {
           return null;
         }
     
-        const token = jwt.sign(
-          { id: user._id, email: user.email, role: user.role },
-          this.secretKey,
-          { expiresIn: '24h' }
-        );
+        let token = jwt.sign({ email, password, role: user.role }, PRIVATE_KEY, { expiresIn: "24h" });
     
         return { user, token };
       }
